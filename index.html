@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="now_time"></div>
+    <div id="time_left"></div>
+    <script>
+
+
+        // const end_time = new Date(2022, 10, 25, 23, 50, 55);
+        const end_time = new Date("2022/11/22 23:45:00");
+
+        window.addEventListener('load', ()=>{
+            const now_time_element = document.getElementById('now_time');
+            const time_left_element = document.getElementById('time_left');
+
+            // 1秒に１回実行
+            setInterval(()=>{
+                // 現在時刻
+                const now_time = new Date();
+
+                const full_year = now_time.getFullYear();
+                const month = now_time.getMonth();
+                const date = now_time.getDate();
+                const hours = now_time.getHours();
+                const minutes = now_time.getMinutes();
+                const seconds = now_time.getSeconds();
+
+                now_time_element.textContent = `Now: ${full_year}年 ${month}月 ${date}日 ${hours}時 ${minutes}分 ${seconds}秒`;
+
+                // 残り時間
+                const difference = end_time.getTime() - now_time.getTime();
+
+                const left_date = Math.trunc(difference / (1000 * 86400)); // -0.xxx は0としたいのでtrunc
+                const left_hours = Math.trunc(difference / (1000 * 3600)) % 24;
+                const left_minutes = Math.trunc(difference / (1000 * 60)) % 60;
+                const left_seconds = Math.floor(difference / (1000)) % 60; // 0.xxx ~ -0.xxx の区間を潰すためfloor
+
+                console.log(difference / (1000));
+                time_left_element.textContent = `Left: ${left_date}日 ${left_hours}時 ${left_minutes}分 ${left_seconds}秒`;
+            }, 1000)
+        });
+    </script>
+</body>
+</html>
